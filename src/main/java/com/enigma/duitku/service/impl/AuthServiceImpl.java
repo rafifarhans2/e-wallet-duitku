@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public RegisterResponse register(AuthRequest authRequest) {
+    public RegisterResponse registerUsers(AuthRequest authRequest) {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_USER);
             UserCredential credential= UserCredential.builder()
@@ -78,12 +78,32 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RegisterResponse registerAdmin(AuthRequest authRequest) {
-        return null;
-    }
+        try {
+            Role role = roleService.getOrSave(ERole.ROLE_ADMIN);
+            UserCredential credential= UserCredential.builder()
+                    .email(authRequest.getEmail())
+                    .password(bCryptUtils.hashPassword(authRequest.getPassword()))
+                    .roles(List.of(role))
+                    .build();
+            userCredentialRepository.saveAndFlush(credential);
 
-    @Override
-    public RegisterResponse registerUsers(RegisterUserRequest request) {
-        return null;
+            User user = User.builder()
+                    .name(authRequest.getName())
+                    .address(authRequest.getAddress())
+                    .mobilePhone(authRequest.getMobilePhone())
+                    .email(authRequest.getEmail())
+                    .userCredential(credential)
+                    .build();
+            userService.create(user);
+
+            return RegisterResponse.builder()
+                    .email(credential.getEmail())
+                    .build();
+
+        } catch (DataIntegrityViolationException exception) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "admin already exists");
+
+        }
     }
 
     @Override
