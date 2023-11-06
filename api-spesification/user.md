@@ -36,6 +36,7 @@ Request Body :
 ````json
 {
   "email" : "nama@gmail.com",
+  "mobilePhone": "0851778876",
   "password" : "rahasia"
 }
 ````
