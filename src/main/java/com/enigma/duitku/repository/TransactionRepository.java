@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
-    public List<Transaction> findByDate(LocalDate date);
 }

@@ -4,7 +4,5 @@ import com.enigma.duitku.entity.Transaction;
 
 public interface TransactionService {
 
-    public Transaction addTransaction(String key, String receiver, String description, String transactionType, Double amount);
-
-
+    Transaction addTransaction(String receiver, String description, String transactionType, Double amount);
 }

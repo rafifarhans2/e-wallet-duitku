@@ -22,9 +22,6 @@ public class Transaction {
     @GeneratedValue(generator = "system-uuid")
     private String id;
 
-    @Column(name = "wallet_id", nullable = false, length = 20)
-    private String walletId;
-
     @Column(name = "local_date", nullable = false)
     private LocalDate localDate;
 
@@ -39,5 +36,8 @@ public class Transaction {
 
     @Column(nullable = false, length = 50)
     private String receiver;
+
+    @Column(nullable = false, length = 50)
+    private String type;
 
 }
