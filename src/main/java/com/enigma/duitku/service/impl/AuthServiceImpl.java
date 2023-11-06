@@ -104,4 +104,5 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .build();
     }
+
 }
