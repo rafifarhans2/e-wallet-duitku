@@ -21,7 +21,7 @@ Aplikasi Duitku merupakan alat yang sangat berguna untuk mengelola keuangan prib
 Fitur-fitur aplikasi duitku adalah:
 
 1. Manajemen 
-2. Manajemen /Menu
+2. Manajemen 
 3. Manajemen 
 4. Laporan Transaksi
 
@@ -40,11 +40,11 @@ Request Body :
 }
 ````
 
-Response Body (Success) :
+Response Body (Created, 201) :
 
 ````json
 {
-  "data" : "Created (201)"
+  "data" : "Created"
 }
 ````
 
@@ -70,7 +70,7 @@ Request Body :
 
 ````
 
-Response Body (Success) :
+Response Body (Ok, 200) :
 
 ````json
 {
@@ -90,7 +90,7 @@ Response Body (Failed, 401) :
 ````
 ## Get User
 
-Endpoint : GET /api/users/current
+Endpoint : GET /api/auth/users/current
 
 Request Header :
 
@@ -103,7 +103,8 @@ Response Body (Success) :
   "data" : {
     "email" : "nama@gmail.com",
     "name" : "Nama Lengkap",
-    "address" : "Jalan  Raya"
+    "address" : "Jalan  Raya",
+    "mobilePhone" : "086564772"
   }
 }
 ````
@@ -118,7 +119,7 @@ Response Body (Failed, 401) :
 
 ## Update User
 
-Endpoint : PATCH /api/users/current
+Endpoint : PUT /api/auth/users/current
 
 Request Header :
 
@@ -128,8 +129,11 @@ Request Body :
 
 ````json
 {
-  "name" : "Rafi Farhan", 
-  "password" : "new password" 
+  "email" : "nama@gmail.com", 
+  "password" : "new password",
+  "name" : "Nama Lengkap",
+  "address" : "Jalan  Raya",
+  "mobilePhone" : "086564772"
 }
 ````
 
@@ -138,8 +142,10 @@ Response Body (Success) :
 ````json
 {
   "data" : {
-    "username" : "sabkiya",
-    "name" : "Rafi Farhan Sabkiya"
+    "email" : "nama@gmail.com",
+    "name" : "Nama Lengkap",
+    "address" : "Jalan  Raya",
+    "mobilePhone" : "086564772"
   }
 }
 ````
