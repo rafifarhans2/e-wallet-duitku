@@ -22,7 +22,7 @@ public class UserCredential {
     @Column(name = "user_id")
     private String id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 255)
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
 
