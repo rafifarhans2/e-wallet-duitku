@@ -4,6 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -21,8 +23,10 @@ public class UserCredential {
     private String id;
 
     @Column(unique = true)
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
 
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){6,12}$")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
