@@ -26,6 +26,9 @@ public class Transaction {
     @Column(name = "local_date", nullable = false)
     private LocalDateTime localDate;
 
+    @Column(name = "wallet_id", length = 50)
+    private String walletId;
+
     @Column(nullable = false)
     private Double amount;
 

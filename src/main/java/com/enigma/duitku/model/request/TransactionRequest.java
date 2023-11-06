@@ -14,6 +14,7 @@ import java.time.LocalTime;
 @Builder(toBuilder = true)
 public class TransactionRequest {
 
+    private String walletId;
     private String receiver;
     private String description;
     private String transactionType;

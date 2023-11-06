@@ -35,4 +35,6 @@ public class User {
     @JoinColumn(name = "user_credential_id")
     private UserCredential userCredential;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Wallet wallet;
 }
