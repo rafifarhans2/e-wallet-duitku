@@ -2,6 +2,8 @@ package com.enigma.duitku.service.impl;
 
 import com.enigma.duitku.entity.Transaction;
 import com.enigma.duitku.entity.User;
+import com.enigma.duitku.model.request.TransactionRequest;
+import com.enigma.duitku.model.response.TransactionResponse;
 import com.enigma.duitku.repository.TransactionRepository;
 import com.enigma.duitku.service.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +20,19 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Transaction addTransaction(String receiver, String description, String transactionType, Double amount) {
+    public TransactionResponse addTransaction(TransactionRequest transactionRequest) {
+
             Transaction transaction = new Transaction();
-            transaction.setAmount(amount);
+            transaction.setAmount(transactionRequest.getAmount());
             transaction.setLocalTime(LocalTime.now());
             transaction.setLocalDate(LocalDate.now());
-            transaction.setDescription(description);
-            transaction.setReceiver(receiver);
-            transaction.setType(transactionType);
+            transaction.setDescription(transaction.getDescription());
+            transaction.setReceiver(transactionRequest.getReceiver());
+            transaction.setType(transactionRequest.getTransactionType());
 
             transactionRepository.saveAndFlush(transaction);
-            return transaction;
+            return TransactionResponse.builder()
+                    .amount(transaction.getAmount())
+                    .build();
     }
 }
