@@ -1,14 +1,27 @@
 
-### Register
-POST http://localhost:8080/api/auth/register
+### Register users
+POST http://localhost:8080/api/auth/register/users
 Accept: application/json
 Content-Type: application/json
 
 {
-  "email" : "rizqi@gmail.com",
-  "password": "password1",
-  "name": "reza",
-  "address": "Jalan",
+  "email" : "user@gmail.com",
+  "password": "password",
+  "name": "reza user",
+  "address": "Jalan raya jakarta",
+  "mobilePhone": "083938774"
+}
+
+### Register admin
+POST http://localhost:8080/api/auth/register/admin
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email" : "admin@gmail.com",
+  "password": "admin",
+  "name": "reza admin",
+  "address": "Jalan Raya serang",
   "mobilePhone": "083938774"
 }
 
@@ -20,4 +33,14 @@ Content-Type: application/json
 {
   "email" : "rizqi@gmail.com",
   "password": "password1"
+}
+
+### LOGIN
+POST http://localhost:8080/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email" : "admin@gmail.com",
+  "password": "admin"
 }

@@ -20,12 +20,24 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(path = "/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
-        RegisterResponse register = authService.register(authRequest);
+    @PostMapping(path = "/register/users")
+    public ResponseEntity<?> registerUsers(@RequestBody AuthRequest authRequest) {
+        RegisterResponse register = authService.registerUsers(authRequest);
         CommonResponse<Object> commonResponse = CommonResponse.builder()
                 .statusCode(HttpStatus.CREATED.value())
-                .message("Successfully registered")
+                .message("Successfully registered user")
+                .data(register)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
+    }
+
+    @PostMapping(path = "/register/admin")
+    public ResponseEntity<?> registerAdmin(@RequestBody AuthRequest authRequest) {
+        RegisterResponse register = authService.registerAdmin(authRequest);
+        CommonResponse<Object> commonResponse = CommonResponse.builder()
+                .statusCode(HttpStatus.CREATED.value())
+                .message("Successfully registered admin")
                 .data(register)
                 .build();
 
