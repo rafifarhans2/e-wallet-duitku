@@ -1,9 +1,6 @@
 package com.enigma.duitku.service.impl;
 
-import com.enigma.duitku.entity.Role;
-import com.enigma.duitku.entity.User;
-import com.enigma.duitku.entity.UserCredential;
-import com.enigma.duitku.entity.UserDetailImpl;
+import com.enigma.duitku.entity.*;
 import com.enigma.duitku.entity.constant.ERole;
 import com.enigma.duitku.model.request.AuthRequest;
 import com.enigma.duitku.model.request.RegisterUserRequest;
@@ -47,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public RegisterResponse register(AuthRequest authRequest) {
+    public RegisterResponse registerUsers(AuthRequest authRequest) {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_USER);
             UserCredential credential= UserCredential.builder()
@@ -78,12 +75,29 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RegisterResponse registerAdmin(AuthRequest authRequest) {
-        return null;
-    }
+        try {
+            Role role = roleService.getOrSave(ERole.ROLE_ADMIN);
+            UserCredential credential= UserCredential.builder()
+                    .email(authRequest.getEmail())
+                    .password(bCryptUtils.hashPassword(authRequest.getPassword()))
+                    .roles(List.of(role))
+                    .build();
+            userCredentialRepository.saveAndFlush(credential);
 
-    @Override
-    public RegisterResponse registerUsers(RegisterUserRequest request) {
-        return null;
+            Admin admin = Admin.builder()
+                    .name(authRequest.getName())
+                    .email(authRequest.getEmail())
+                    .userCredential(credential)
+                    .build();
+            userService.create(admin);
+
+            return RegisterResponse.builder()
+                    .email(credential.getEmail())
+                    .build();
+
+        } catch (DataIntegrityViolationException exception) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "admin already exists");
+        }
     }
 
     @Override
@@ -104,4 +118,5 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .build();
     }
+
 }

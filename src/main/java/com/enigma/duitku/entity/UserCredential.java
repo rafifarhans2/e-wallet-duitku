@@ -22,8 +22,12 @@ public class UserCredential {
     @Column(name = "user_id")
     private String id;
 
+<<<<<<< HEAD
     @Column(unique = true)
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
+=======
+    @Column(unique = true, length = 255)
+>>>>>>> 01-login-register
     private String email;
 
     @Pattern(regexp = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){6,12}$")
