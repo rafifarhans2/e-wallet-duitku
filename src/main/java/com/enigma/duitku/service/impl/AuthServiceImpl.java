@@ -74,6 +74,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public RegisterResponse registerAdmin(AuthRequest authRequest) {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_ADMIN);
