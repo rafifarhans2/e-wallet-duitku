@@ -15,18 +15,14 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GenericGenerator(strategy = "uuid2", name = "system-uuid")
-    @GeneratedValue(generator = "system-uuid")
-    private String id;
+    @Column(name = "mobile_phone", length = 100, nullable = false)
+    private String mobilePhone;
 
     @Column(length = 100, nullable = false)
     private String name;
 
     @Column(length = 100, nullable = false)
     private String address;
-
-    @Column(name = "mobile_phone", length = 100, nullable = false, unique = true)
-    private String mobilePhone;
 
     @Column(length = 100, nullable = false, unique = true)
     private String email;
