@@ -1,9 +1,6 @@
 package com.enigma.duitku.service.impl;
 
-import com.enigma.duitku.entity.Role;
-import com.enigma.duitku.entity.User;
-import com.enigma.duitku.entity.UserCredential;
-import com.enigma.duitku.entity.UserDetailImpl;
+import com.enigma.duitku.entity.*;
 import com.enigma.duitku.entity.constant.ERole;
 import com.enigma.duitku.model.request.AuthRequest;
 import com.enigma.duitku.model.request.RegisterUserRequest;
@@ -87,14 +84,12 @@ public class AuthServiceImpl implements AuthService {
                     .build();
             userCredentialRepository.saveAndFlush(credential);
 
-            User user = User.builder()
+            Admin admin = Admin.builder()
                     .name(authRequest.getName())
-                    .address(authRequest.getAddress())
-                    .mobilePhone(authRequest.getMobilePhone())
                     .email(authRequest.getEmail())
                     .userCredential(credential)
                     .build();
-            userService.create(user);
+            userService.create(admin);
 
             return RegisterResponse.builder()
                     .email(credential.getEmail())
@@ -102,7 +97,6 @@ public class AuthServiceImpl implements AuthService {
 
         } catch (DataIntegrityViolationException exception) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "admin already exists");
-
         }
     }
 

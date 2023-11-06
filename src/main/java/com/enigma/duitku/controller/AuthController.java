@@ -20,7 +20,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(path = "/register/users")
+    @PostMapping(path = "/register/user")
     public ResponseEntity<?> registerUsers(@RequestBody AuthRequest authRequest) {
         RegisterResponse register = authService.registerUsers(authRequest);
         CommonResponse<Object> commonResponse = CommonResponse.builder()

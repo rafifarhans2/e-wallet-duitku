@@ -1,6 +1,8 @@
 package com.enigma.duitku.service.impl;
 
+import com.enigma.duitku.entity.Admin;
 import com.enigma.duitku.entity.User;
+import com.enigma.duitku.repository.AdminRepository;
 import com.enigma.duitku.repository.UserRepository;
 import com.enigma.duitku.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +19,21 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final AdminRepository adminRepository;
+
     @Override
     public User create(User user) {
         try {
             return userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "email already used");
+        }
+    }
+
+    @Override
+    public Admin create(Admin admin) {
+        try {
+            return adminRepository.save(admin);
         } catch (DataIntegrityViolationException exception) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email already used");
         }
