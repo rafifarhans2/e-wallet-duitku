@@ -8,9 +8,7 @@ import com.enigma.duitku.model.response.RegisterResponse;
 
 public interface AuthService {
 
-    RegisterResponse register(AuthRequest authRequest);
+    RegisterResponse registerUsers(AuthRequest authRequest);
     RegisterResponse registerAdmin(AuthRequest authRequest);
-    RegisterResponse registerUsers(RegisterUserRequest request);
     LoginResponse login(AuthRequest request);
-
 }

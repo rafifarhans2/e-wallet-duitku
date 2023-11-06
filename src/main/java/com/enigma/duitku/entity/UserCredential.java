@@ -22,11 +22,9 @@ public class UserCredential {
     @Column(name = "user_id")
     private String id;
 
-    @Column(unique = true)
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
+    @Column(unique = true, length = 255)
     private String email;
 
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){6,12}$")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
