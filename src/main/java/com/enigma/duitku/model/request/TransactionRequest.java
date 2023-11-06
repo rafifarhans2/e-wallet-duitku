@@ -3,6 +3,10 @@ package com.enigma.duitku.model.request;
 
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -10,9 +14,10 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class TransactionRequest {
 
-    String receiver;
-    String description;
-    String transactionType;
-    Double amount;
+    private String receiver;
+    private String description;
+    private String transactionType;
+    private Double amount;
+    private LocalDateTime localDate;
 
 }

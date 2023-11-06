@@ -2,6 +2,7 @@ package com.enigma.duitku.model.response;
 
 import lombok.*;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -9,9 +10,9 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class TransactionResponse {
 
-    String receiver;
-    String description;
-    String transactionType;
-    Double amount;
+    private String receiver;
+    private  String description;
+    private String transactionType;
+    private Double amount;
 
 }

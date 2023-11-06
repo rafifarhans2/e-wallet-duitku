@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -23,10 +24,7 @@ public class Transaction {
     private String id;
 
     @Column(name = "local_date", nullable = false)
-    private LocalDate localDate;
-
-    @Column(name = "local_time", nullable = false)
-    private LocalTime localTime;
+    private LocalDateTime localDate;
 
     @Column(nullable = false)
     private Double amount;

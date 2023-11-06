@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/auth/transaction//addtransaction")
+@RequestMapping("api/auth/transaction/addtransaction")
 public class TransactionController {
 
     private final TransactionService transactionService;
