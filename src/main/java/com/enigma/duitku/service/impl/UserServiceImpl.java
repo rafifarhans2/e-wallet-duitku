@@ -2,6 +2,8 @@ package com.enigma.duitku.service.impl;
 
 import com.enigma.duitku.entity.Admin;
 import com.enigma.duitku.entity.User;
+import com.enigma.duitku.entity.Wallet;
+import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.repository.AdminRepository;
 import com.enigma.duitku.repository.UserRepository;
 import com.enigma.duitku.service.UserService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +25,28 @@ public class UserServiceImpl implements UserService {
     private final AdminRepository adminRepository;
 
     @Override
-    public User create(User user) {
+    public User create(User user) throws UserException {
         try {
-            return userRepository.save(user);
+            Optional<User> findUser = userRepository.findById(user.getMobilePhone());
+
+            if(findUser.isEmpty()) {
+                Wallet wallet = new Wallet();
+                wallet.setBalance(0.0);
+                wallet.setId(user.getMobilePhone());
+                user.setWallet(wallet);
+
+                User addUser=userRepository.saveAndFlush(user);
+
+                if(addUser !=null) {
+                    return addUser;
+                } else {
+                    throw new UserException("Sorry, sign up unsuccessfull!");
+                }
+
+            } else {
+                throw new UserException("User already Registered With The Mobile Number: " +  user.getMobilePhone());
+            }
+
         } catch (DataIntegrityViolationException exception) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email already used");
         }
