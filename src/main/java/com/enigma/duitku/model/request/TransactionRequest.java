@@ -14,10 +14,10 @@ import java.time.LocalTime;
 public class TransactionRequest  {
 
     private String mobilePhone;
-    //private String targetMobilePhone;
     private String receiver;
     private String description;
     private String transactionType;
     private Double amount;
     private LocalDateTime localDate;
+    private String userId;
 }

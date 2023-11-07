@@ -5,6 +5,7 @@ import com.enigma.duitku.entity.Transaction;
 import com.enigma.duitku.entity.User;
 import com.enigma.duitku.entity.Wallet;
 import com.enigma.duitku.exception.BankAccountException;
+import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.exception.WalletException;
 import com.enigma.duitku.model.request.TransactionRequest;
 import com.enigma.duitku.model.request.WalletRequest;
