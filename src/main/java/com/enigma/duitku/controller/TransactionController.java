@@ -30,7 +30,6 @@ public class TransactionController {
                         .data(transactionResponse)
                         .message("Successfully Create Transaction")
                         .build());
-
     }
 
 }

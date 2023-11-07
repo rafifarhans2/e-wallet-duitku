@@ -36,14 +36,16 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
 
     @Override
-    public WalletResponse addMoneyToWallet(WalletRequest request) throws WalletException, BankAccountException {
+    public TransactionResponse addMoneyToWallet(TransactionRequest request) throws WalletException, BankAccountException {
 
         Optional<User> optionalUser = userRepository.findById(request.getMobilePhone());
 
             if(optionalUser.isPresent()) {
+
                 User user = optionalUser.get();
                 Wallet wallet = user.getWallet();
                 Double walletAvailableBalance = wallet.getBalance();
+
                 Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(user.getMobilePhone());
 
                 if(optionalBankAccount.isPresent()) {
@@ -77,57 +79,15 @@ public class WalletServiceImpl implements WalletService {
                 }
             }
 
-        return WalletResponse.builder()
+        return TransactionResponse.builder()
                 .amount(request.getAmount())
                 .description(request.getDescription())
                 .build();
     }
 
     @Override
-    public WalletResponse transferMoney(WalletRequest request) {
-
-        Optional<User> optionalUser = userRepository.findById(request.getMobilePhone());
-
-        if(optionalUser.isPresent()) {
-            Optional<User> optionalTargetUser= userRepository.findById(request.getTargetMobileNumber());
-
-            if(optionalTargetUser.isPresent()) {
-                User user = optionalUser.get();
-                User targetUser =optionalTargetUser.get();
-                Wallet wallet = user.getWallet();
-                Wallet targetWallet = targetUser.getWallet();
-                Double availableBalance = wallet.getBalance();
-                Double targetAvailableBalance=targetWallet.getBalance();
-                List<Transaction> targetListOfTransaction = targetWallet.getListOfTransactions();
-
-                if(availableBalance >= request.getAmount()) {
-
-                   TransactionRequest transaction =new TransactionRequest();
-                   transaction.setMobilePhone(request.getMobilePhone());
-                   transaction.setDescription(request.getDescription());
-                   transaction.setTransactionType("E-Wallet Transaction");
-                   transaction.setReceiver(request.getReceiver());
-                   transaction.setAmount(request.getAmount());
-
-                   transactionService.addTransaction(transaction);
-
-                    if(transaction != null) {
-                        wallet.setBalance(availableBalance - request.getAmount());
-                        targetListOfTransaction.add(transaction);
-
-                        targetWallet.setBalance(targetAvailableBalance + request.getAmount());
-                        targetWallet.setListOfTransactions(targetListOfTransaction);
-                        walletRepository.saveAndFlush(wallet);
-                        walletRepository.saveAndFlush(targetWallet);
-                    }
-
-                }
-            }
-
-        }
-
-        return WalletResponse.builder()
-                .build();
+    public TransactionResponse transferMoney(TransactionRequest request) {
+        return null;
     }
 
     @Override

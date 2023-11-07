@@ -25,26 +25,26 @@ public class WalletController {
     private final WalletService walletService;
 
     @PostMapping("transfer")
-    public ResponseEntity<?> transferMoney(WalletRequest request) {
+    public ResponseEntity<?> transferMoney(TransactionRequest transactionRequest) {
 
-        WalletResponse walletResponse= walletService.transferMoney(request);
+        TransactionResponse transactionResponse = walletService.transferMoney(transactionRequest);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
                         .message("Successfully transfer money")
-                        .data(walletResponse)
+                        .data(transactionResponse)
                         .build());
     }
 
     @PostMapping(value = "transfer/towallet")
-    public ResponseEntity<?> addMoneyToWallet(@RequestBody WalletRequest request) throws BankAccountException, WalletException {
-         WalletResponse walletResponse= walletService.addMoneyToWallet(request);
+    public ResponseEntity<?> addMoneyToWallet(@RequestBody TransactionRequest request) throws BankAccountException, WalletException {
+         TransactionResponse transactionResponse= walletService.addMoneyToWallet(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.CREATED.value())
-                        .data(walletResponse)
+                        .data(transactionResponse)
                         .message("Sucessfully add money to wallet")
                         .build());
     }

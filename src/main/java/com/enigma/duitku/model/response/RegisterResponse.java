@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class RegisterResponse {
     private String email;
     private String mobilePhone;
+    private Double balance;
 }

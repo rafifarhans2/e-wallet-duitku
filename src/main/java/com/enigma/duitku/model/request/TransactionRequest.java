@@ -1,7 +1,6 @@
 package com.enigma.duitku.model.request;
 
 
-import com.enigma.duitku.entity.Transaction;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ import java.time.LocalTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionRequest extends Transaction {
+public class TransactionRequest  {
 
     private String mobilePhone;
     //private String targetMobilePhone;
