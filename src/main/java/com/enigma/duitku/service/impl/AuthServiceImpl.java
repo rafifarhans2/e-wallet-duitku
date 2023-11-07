@@ -3,7 +3,6 @@ package com.enigma.duitku.service.impl;
 import com.enigma.duitku.entity.*;
 import com.enigma.duitku.entity.constant.ERole;
 import com.enigma.duitku.model.request.AuthRequest;
-import com.enigma.duitku.model.request.RegisterUserRequest;
 import com.enigma.duitku.model.response.LoginResponse;
 import com.enigma.duitku.model.response.RegisterResponse;
 import com.enigma.duitku.repository.UserCredentialRepository;
