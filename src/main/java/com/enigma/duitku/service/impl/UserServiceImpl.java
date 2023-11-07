@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        User currentUser= getById(user.getId());
+        User currentUser= getById(user.getMobilePhone());
         if (currentUser!= null) {
             return userRepository.save(user);
         } else {
-            throw new RuntimeException("Pelanggan dengan ID " + user.getId() + " tidak ditemukan. Tidak dapat melakukan pembaruan.");
+            throw new RuntimeException("User by Number " + user.getMobilePhone() + " No Found. Unable to update.");
         }
     }
 
