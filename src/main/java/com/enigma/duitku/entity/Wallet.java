@@ -18,8 +18,6 @@ import java.util.List;
 public class Wallet {
 
     @Id
-    @GenericGenerator(strategy = "uuid2", name= "system-uuid")
-    @GeneratedValue(generator = "system-uuid")
     @Column(name="wallet_id")
     private String id;
 
