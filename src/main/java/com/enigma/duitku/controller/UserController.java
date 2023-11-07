@@ -1,6 +1,7 @@
 package com.enigma.duitku.controller;
 
 import com.enigma.duitku.entity.User;
+import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.model.response.CommonResponse;
 import com.enigma.duitku.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> createNewCustomer(@RequestBody User user) {
+    public ResponseEntity<?> createNewCustomer(@RequestBody User user) throws UserException {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.<User>builder()
                         .statusCode(HttpStatus.CREATED.value())

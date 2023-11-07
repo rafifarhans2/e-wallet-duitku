@@ -2,6 +2,7 @@ package com.enigma.duitku.service.impl;
 
 import com.enigma.duitku.entity.*;
 import com.enigma.duitku.entity.constant.ERole;
+import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.model.request.AuthRequest;
 import com.enigma.duitku.model.response.LoginResponse;
 import com.enigma.duitku.model.response.RegisterResponse;
@@ -43,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public RegisterResponse registerUsers(AuthRequest authRequest) {
+    public RegisterResponse registerUsers(AuthRequest authRequest) throws UserException {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_USER);
             UserCredential credential= UserCredential.builder()

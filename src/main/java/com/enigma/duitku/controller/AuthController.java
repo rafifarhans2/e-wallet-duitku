@@ -1,5 +1,6 @@
 package com.enigma.duitku.controller;
 
+import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.model.request.AuthRequest;
 import com.enigma.duitku.model.response.CommonResponse;
 import com.enigma.duitku.model.response.LoginResponse;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(path = "/register/user")
-    public ResponseEntity<?> registerUsers(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> registerUsers(@RequestBody AuthRequest authRequest)throws UserException {
         RegisterResponse register = authService.registerUsers(authRequest);
         CommonResponse<Object> commonResponse = CommonResponse.builder()
                 .statusCode(HttpStatus.CREATED.value())
