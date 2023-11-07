@@ -5,6 +5,7 @@ import com.enigma.duitku.model.request.TransactionRequest;
 import com.enigma.duitku.model.response.CommonResponse;
 import com.enigma.duitku.model.response.TransactionResponse;
 import com.enigma.duitku.service.TransactionService;
+import com.enigma.duitku.service.impl.TransactionServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("api/transaction")
 public class TransactionController {
 
-    private final TransactionService transactionService;
+    private final TransactionServiceImpl transactionService;
 
     @PostMapping("/addtransaction")
     public ResponseEntity<?> addTransactionHandler(@RequestBody TransactionRequest request) {

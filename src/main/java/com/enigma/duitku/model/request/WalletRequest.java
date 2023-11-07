@@ -13,4 +13,5 @@ public class WalletRequest {
     private String targetMobileNumber;
     private Double amount;
     private String description;
+    private String receiver;
 }

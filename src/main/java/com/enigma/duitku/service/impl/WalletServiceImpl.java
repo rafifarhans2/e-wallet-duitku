@@ -103,9 +103,10 @@ public class WalletServiceImpl implements WalletService {
                 if(availableBalance >= request.getAmount()) {
 
                    TransactionRequest transaction =new TransactionRequest();
-                   transaction.setTargetMobilePhone(request.getMobilePhone());
+                   transaction.setMobilePhone(request.getMobilePhone());
                    transaction.setDescription(request.getDescription());
                    transaction.setTransactionType("E-Wallet Transaction");
+                   transaction.setReceiver(request.getReceiver());
                    transaction.setAmount(request.getAmount());
 
                    transactionService.addTransaction(transaction);
@@ -126,7 +127,11 @@ public class WalletServiceImpl implements WalletService {
         }
 
         return WalletResponse.builder()
-
                 .build();
+    }
+
+    @Override
+    public Wallet getById(String id) {
+        return null;
     }
 }

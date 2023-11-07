@@ -1,5 +1,6 @@
 package com.enigma.duitku.service;
 
+import com.enigma.duitku.entity.Wallet;
 import com.enigma.duitku.exception.BankAccountException;
 import com.enigma.duitku.exception.WalletException;
 import com.enigma.duitku.model.request.TransactionRequest;
@@ -12,5 +13,7 @@ public interface WalletService {
         WalletResponse transferMoney(WalletRequest request);
 
         WalletResponse addMoneyToWallet(WalletRequest request)throws WalletException, BankAccountException;
+
+        Wallet getById(String id);
 
 }

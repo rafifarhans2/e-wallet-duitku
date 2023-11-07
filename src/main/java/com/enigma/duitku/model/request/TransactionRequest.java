@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class TransactionRequest extends Transaction {
 
     private String mobilePhone;
-    private String targetMobilePhone;
+    //private String targetMobilePhone;
     private String receiver;
     private String description;
     private String transactionType;
