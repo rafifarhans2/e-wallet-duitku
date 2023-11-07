@@ -14,12 +14,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/transaction/addtransaction")
+@RequestMapping("api/transaction")
 public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @PostMapping
+    @PostMapping("/addtransaction")
     public ResponseEntity<?> addTransactionHandler(@RequestBody TransactionRequest request) {
         TransactionResponse transactionResponse = transactionService.addTransaction(request);
 
