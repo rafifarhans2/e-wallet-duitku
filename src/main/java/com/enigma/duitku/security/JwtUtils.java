@@ -15,7 +15,7 @@ public class JwtUtils {
     @Value("ini rahasia lah kocak")
     private String jwtSecret;
 
-    @Value("3000000") // setiap 3 menit atau 3 juta milis
+    @Value("8000000") // setiap 3 menit atau 3 juta milis
     private Long jwtExpiration;
 
     public String getEmailByToken(String token) {

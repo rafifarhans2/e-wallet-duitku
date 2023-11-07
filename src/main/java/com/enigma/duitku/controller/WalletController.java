@@ -1,5 +1,6 @@
 package com.enigma.duitku.controller;
 
+import com.enigma.duitku.entity.Wallet;
 import com.enigma.duitku.exception.BankAccountException;
 import com.enigma.duitku.exception.WalletException;
 import com.enigma.duitku.model.request.TransactionRequest;
@@ -23,14 +24,27 @@ public class WalletController {
 
     private final WalletService walletService;
 
+    @PostMapping("transfer")
+    public ResponseEntity<?> transferMoney(WalletRequest request) {
+
+        WalletResponse walletResponse= walletService.transferMoney(request);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully transfer money")
+                        .data(walletResponse)
+                        .build());
+    }
+
     @PostMapping(value = "transfer/towallet")
-    public ResponseEntity<?> addMoneyToWallet(@RequestBody TransactionRequest request) throws BankAccountException, WalletException {
-        TransactionResponse transactionResponse = walletService.addMoneyToWallet(request);
+    public ResponseEntity<?> addMoneyToWallet(@RequestBody WalletRequest request) throws BankAccountException, WalletException {
+         WalletResponse walletResponse= walletService.addMoneyToWallet(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.CREATED.value())
-                        .data(transactionResponse)
+                        .data(walletResponse)
                         .message("Sucessfully add money to wallet")
                         .build());
     }

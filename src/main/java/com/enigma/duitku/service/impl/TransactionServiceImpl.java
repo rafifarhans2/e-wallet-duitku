@@ -23,6 +23,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponse addTransaction(TransactionRequest transactionRequest) {
 
             Transaction transaction = Transaction.builder()
+                    .walletId(transactionRequest.getMobilePhone())
                     .amount(transactionRequest.getAmount())
                     .localDate(LocalDateTime.now())
                     .description(transactionRequest.getDescription())
