@@ -13,5 +13,4 @@ public class BankAccountResponse {
     private Double balance;
     private String accountNo;
     private String errors;
-    private String message;
 }
