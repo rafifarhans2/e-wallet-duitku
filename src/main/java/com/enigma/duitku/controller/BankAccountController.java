@@ -40,6 +40,19 @@ public class BankAccountController {
         }
     }
 
+    @PostMapping("/view")
+    public ResponseEntity<?> viewProfile(@RequestBody BankAccountRequest request) {
+
+        BankAccountResponse profileWallet = bankAccountService.viewProfile(request);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .data(profileWallet)
+                        .message("Successfully view profile")
+                        .build());
+    }
+
     @PostMapping("/view/balance")
     public ResponseEntity<?> viewBankBalance(@RequestBody BankAccountRequest request) {
 

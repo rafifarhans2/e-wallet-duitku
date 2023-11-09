@@ -10,4 +10,6 @@ public interface BankAccountService {
 
     BankAccountResponse viewBankBalance(BankAccountRequest request);
 
+    BankAccountResponse viewProfile(BankAccountRequest request);
+
 }

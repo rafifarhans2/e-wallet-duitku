@@ -53,6 +53,26 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
+    public BankAccountResponse viewProfile(BankAccountRequest request) {
+
+        Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(request.getMobileNumber());
+
+        if(optionalBankAccount.isPresent()) {
+            BankAccount bankAccount = optionalBankAccount.get();
+
+            return BankAccountResponse.builder()
+                    .mobileNumber(bankAccount.getId())
+                    .bankName(bankAccount.getBankName())
+                    .accountNo(bankAccount.getAccountNo())
+                    .build();
+        }
+
+        return BankAccountResponse.builder()
+                .errors("Mobile number not found")
+                .build();
+    }
+
+    @Override
     public BankAccountResponse viewBankBalance(BankAccountRequest request) {
         Optional<BankAccount> optionalBankAccount= bankAccountRepository.findById(request.getMobileNumber());
 
