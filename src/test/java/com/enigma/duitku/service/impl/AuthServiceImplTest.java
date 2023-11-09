@@ -1,6 +1,8 @@
 package com.enigma.duitku.service.impl;
 
 import com.enigma.duitku.entity.Role;
+
+import com.enigma.duitku.entity.User;
 import com.enigma.duitku.entity.UserCredential;
 import com.enigma.duitku.entity.constant.ERole;
 import com.enigma.duitku.exception.UserException;
@@ -19,9 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,9 +63,8 @@ class AuthServiceImplTest {
         authService = new AuthServiceImpl(userCredentialRepository, bCryptUtils, userService, roleService, validationUtil, authenticationManager, jwtUtils);
     }
 
-
     @Test
-    void testRegisterUsers() throws UserException {
+    public void testRegisterUsers() throws UserException {
         AuthRequest authRequest = new AuthRequest();
         authRequest.setEmail("dim4211@gmail.com");
         authRequest.setPassword("apakahkamutau");
@@ -69,26 +72,35 @@ class AuthServiceImplTest {
         authRequest.setAddress("jalan-jalan teros");
         authRequest.setMobilePhone("08954353434");
 
+
         Role role = new Role();
         role.setRole(ERole.ROLE_USER);
 
         UserCredential userCredential = new UserCredential();
-        userCredential.setEmail(authRequest.getEmail());
-        userCredential.setPassword("pw");
-        userCredential.setRoles(Collections.singletonList(role));
+        userCredential.setEmail("dim4211@gmail.com");
+
+        User user = new User();
+        user.setMobilePhone("089543534534");
+
+
 
         when(roleService.getOrSave(ERole.ROLE_USER)).thenReturn(role);
-        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn("pw");
+        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn(authRequest.getPassword());
         when(userCredentialRepository.saveAndFlush(any(UserCredential.class))).thenReturn(userCredential);
+        when(userService.create(any(User.class))).thenReturn(user);
 
 
         RegisterResponse response = authService.registerUsers(authRequest);
 
-        assertEquals(authRequest.getEmail(), response.getEmail());
+        verify(roleService).getOrSave(ERole.ROLE_USER);
+        verify(bCryptUtils).hashPassword(authRequest.getPassword());
+        verify(userCredentialRepository).saveAndFlush(any(UserCredential.class));
+        verify(userService).create(any(User.class));
 
-        verify(roleService, times(1)).getOrSave(ERole.ROLE_USER);
-        verify(bCryptUtils, times(1)).hashPassword(authRequest.getPassword());
-        verify(userCredentialRepository, times(1)).saveAndFlush(any(UserCredential.class));
+
+        assertEquals("dim4211@gmail.com", response.getEmail());
+        assertEquals("08954353434", response.getMobilePhone());
+        assertEquals(null, response.getBalance());
     }
 
     @Test
@@ -103,11 +115,11 @@ class AuthServiceImplTest {
 
         UserCredential userCredential = new UserCredential();
         userCredential.setEmail(authRequest.getEmail());
-        userCredential.setPassword("hashedPassword");
+        userCredential.setPassword(authRequest.getPassword());
         userCredential.setRoles(Collections.singletonList(role));
 
         when(roleService.getOrSave(ERole.ROLE_ADMIN)).thenReturn(role);
-        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn("hashedPassword");
+        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn(authRequest.getPassword());
         when(userCredentialRepository.saveAndFlush(any(UserCredential.class))).thenReturn(userCredential);
 
         RegisterResponse response = authService.registerAdmin(authRequest);
@@ -117,6 +129,7 @@ class AuthServiceImplTest {
         verify(roleService, times(1)).getOrSave(ERole.ROLE_ADMIN);
         verify(bCryptUtils, times(1)).hashPassword(authRequest.getPassword());
         verify(userCredentialRepository, times(1)).saveAndFlush(any(UserCredential.class));
+
     }
 
     @Test
@@ -132,7 +145,7 @@ class AuthServiceImplTest {
         role.setRole(ERole.ROLE_USER);
 
         when(roleService.getOrSave(ERole.ROLE_USER)).thenReturn(role);
-        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn("hashedPassword");
+        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn(authRequest.getPassword());
         when(userCredentialRepository.saveAndFlush(any(UserCredential.class))).thenThrow(DataIntegrityViolationException.class);
 
         ResponseStatusException exception = org.junit.jupiter.api.Assertions.assertThrows(ResponseStatusException.class, () -> {
@@ -159,7 +172,7 @@ class AuthServiceImplTest {
         role.setRole(ERole.ROLE_ADMIN);
 
         when(roleService.getOrSave(ERole.ROLE_ADMIN)).thenReturn(role);
-        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn("hashedPassword");
+        when(bCryptUtils.hashPassword(authRequest.getPassword())).thenReturn(authRequest.getPassword());
         when(userCredentialRepository.saveAndFlush(any(UserCredential.class))).thenThrow(DataIntegrityViolationException.class);
 
         ResponseStatusException exception = org.junit.jupiter.api.Assertions.assertThrows(ResponseStatusException.class, () -> {
