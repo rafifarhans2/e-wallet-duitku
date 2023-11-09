@@ -1,7 +1,6 @@
 package com.enigma.duitku.entity;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -21,11 +20,11 @@ public class User {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length = 100, nullable = false)
-    private String address;
-
     @Column(length = 100, nullable = false, unique = true)
     private String email;
+
+    @Column(length = 100, nullable = false)
+    private String address;
 
     @OneToOne
     @JoinColumn(name = "user_credential_id")

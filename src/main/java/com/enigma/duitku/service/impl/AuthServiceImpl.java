@@ -69,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
             return RegisterResponse.builder()
                     .email(credential.getEmail())
                     .mobilePhone(user.getMobilePhone())
-                    .balance(wallet.getBalance())
+                    .balance(user.getWallet().getBalance())
                     .build();
 
         } catch (DataIntegrityViolationException exception) {
