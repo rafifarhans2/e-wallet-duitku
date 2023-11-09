@@ -8,4 +8,6 @@ public interface BankAccountService {
 
     BankAccountResponse addAccount(BankAccountRequest request) throws UserException;
 
+    BankAccountResponse viewBankBalance(BankAccountRequest request);
+
 }

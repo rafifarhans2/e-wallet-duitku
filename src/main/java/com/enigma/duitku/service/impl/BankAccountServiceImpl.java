@@ -65,6 +65,5 @@ public class BankAccountServiceImpl implements BankAccountService {
                     .errors("Mobile number not found")
                     .build();
         }
-
     }
 }
