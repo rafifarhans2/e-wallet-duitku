@@ -19,7 +19,7 @@ public class BankAccountController {
     private final BankAccountService bankAccountService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addBankAccount(@RequestBody BankAccountRequest request) throws UserException {
+    public ResponseEntity<?> addBankAccount(@RequestBody BankAccountRequest request)  {
 
         BankAccountResponse bankAccountResponse = bankAccountService.addAccount(request);
 

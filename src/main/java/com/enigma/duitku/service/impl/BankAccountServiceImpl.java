@@ -22,7 +22,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountRepository bankAccountRepository;
 
     @Override
-    public BankAccountResponse addAccount(BankAccountRequest request) throws UserException {
+    public BankAccountResponse addAccount(BankAccountRequest request) {
 
         Optional<User> optionalUser = userRepository.findById(request.getMobileNumber());
 
