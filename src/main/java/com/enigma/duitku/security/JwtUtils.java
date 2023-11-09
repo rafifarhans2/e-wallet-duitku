@@ -18,13 +18,13 @@ public class JwtUtils {
     @Value("8000000") // setiap 3 menit atau 3 juta milis
     private Long jwtExpiration;
 
-    public String getEmailByToken(String token) {
+    public String getMobileNumberByToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String mobileNumber) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(mobileNumber)
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))

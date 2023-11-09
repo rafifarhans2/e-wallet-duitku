@@ -7,5 +7,5 @@ import com.enigma.duitku.model.response.TransactionResponse;
 
 public interface TransactionService {
 
-    TransactionResponse addTransaction(TransactionRequest transactionRequest) throws UserException;
+    TransactionResponse addTransaction(TransactionRequest transactionRequest);
 }

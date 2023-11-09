@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class TransactionRequest  {
 
-    private String mobilePhone;
+    private String mobileNumber;
     private String receiver;
     private String description;
     private String transactionType;

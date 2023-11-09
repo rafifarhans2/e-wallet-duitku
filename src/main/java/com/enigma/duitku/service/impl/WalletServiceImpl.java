@@ -14,6 +14,7 @@ import com.enigma.duitku.model.response.WalletResponse;
 import com.enigma.duitku.repository.BankAccountRepository;
 import com.enigma.duitku.repository.UserRepository;
 import com.enigma.duitku.repository.WalletRepository;
+import com.enigma.duitku.service.TransactionService;
 import com.enigma.duitku.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,32 +33,33 @@ public class WalletServiceImpl implements WalletService {
 
     private final BankAccountRepository bankAccountRepository;
 
-    private final TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
 
     private final WalletRepository walletRepository;
 
     @Override
-    public TransactionResponse addMoneyToWallet(TransactionRequest request) throws WalletException, BankAccountException {
+    public TransactionResponse addMoneyToWallet(TransactionRequest request) {
 
-        Optional<User> optionalUser = userRepository.findById(request.getMobilePhone());
+        Optional<User> optionalUser = userRepository.findById(request.getMobileNumber());
 
             if(optionalUser.isPresent()) {
 
                 User user = optionalUser.get();
                 Wallet wallet = user.getWallet();
                 Double walletAvailableBalance = wallet.getBalance();
-
-                Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(user.getMobilePhone());
+                Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(user.getMobileNumber());
 
                 if(optionalBankAccount.isPresent()) {
+
                     BankAccount bankAccount = optionalBankAccount.get();
                     Double availableBalance = bankAccount.getBalance();
 
                     if(availableBalance >= request.getAmount()) {
+
                         wallet.setBalance(walletAvailableBalance + request.getAmount());
 
                         TransactionRequest transaction = new TransactionRequest();
-                        user.getMobilePhone();
+                        user.getMobileNumber();
                         transaction.setDescription("Wallet Top Up");
                         transaction.setTransactionType("E-Wallet Transaction");
                         transaction.setAmount(request.getAmount());
@@ -68,15 +70,15 @@ public class WalletServiceImpl implements WalletService {
                             bankAccountRepository.saveAndFlush(bankAccount);
                             walletRepository.saveAndFlush(wallet);
                         } else {
-                            throw new TransactionException("Sorry Transaction Failed");
+                            throw new RuntimeException("Sorry Transaction Failed");
                         }
 
                     } else {
-                        throw new WalletException("Insufficient Funds!" + availableBalance);
+                        throw new RuntimeException("Insufficient Funds!" + availableBalance);
                     }
 
                 } else {
-                    throw new BankAccountException("No Registered Bank Account Found With This Mobile Number " + user.getMobilePhone());
+                    throw new RuntimeException("No Registered Bank Account Found With This Mobile Number " + user.getMobileNumber());
                 }
             }
 

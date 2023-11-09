@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 public class RegisterResponse {
     private String email;
-    private String mobilePhone;
+    private String mobileNumber;
     private Double balance;
 }

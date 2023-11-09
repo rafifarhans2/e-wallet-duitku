@@ -32,7 +32,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             User user = optionalUser.get();
 
             BankAccount bankAccount = new BankAccount();
-            bankAccount.setId(user.getMobilePhone());
+            bankAccount.setId(user.getMobileNumber());
             bankAccount.setAccountNo(request.getAccountNo());
             bankAccount.setBalance(request.getBalance());
             bankAccount.setBankName(request.getBankName());
@@ -93,7 +93,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public BankAccountResponse removeAccountBank(User user) {
 
-       BankAccount bankAccount = bankAccountRepository.getById(user.getMobilePhone());
+       BankAccount bankAccount = bankAccountRepository.getById(user.getMobileNumber());
 
         if(bankAccount!=null) {
             bankAccountRepository.delete(bankAccount);

@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_USER);
             UserCredential credential= UserCredential.builder()
-                    .email(authRequest.getEmail())
+                    .mobileNumber(authRequest.getMobileNumber())
                     .password(bCryptUtils.hashPassword(authRequest.getPassword()))
                     .roles(List.of(role))
                     .build();
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
             User user = User.builder()
                     .name(authRequest.getName())
                     .address(authRequest.getAddress())
-                    .mobilePhone(authRequest.getMobilePhone())
+                    .mobileNumber(authRequest.getMobileNumber())
                     .email(authRequest.getEmail())
                     .userCredential(credential)
                     .build();
@@ -67,9 +67,9 @@ public class AuthServiceImpl implements AuthService {
             wallet.setBalance(wallet.getBalance());
 
             return RegisterResponse.builder()
-                    .email(credential.getEmail())
-                    .mobilePhone(user.getMobilePhone())
+                    .mobileNumber(user.getMobileNumber())
                     .balance(user.getWallet().getBalance())
+                    .email(user.getEmail())
                     .build();
 
         } catch (DataIntegrityViolationException exception) {
@@ -84,7 +84,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_ADMIN);
             UserCredential credential= UserCredential.builder()
-                    .email(authRequest.getEmail())
+                    .mobileNumber(authRequest.getMobileNumber())
                     .password(bCryptUtils.hashPassword(authRequest.getPassword()))
                     .roles(List.of(role))
                     .build();
@@ -92,13 +92,13 @@ public class AuthServiceImpl implements AuthService {
 
             Admin admin = Admin.builder()
                     .name(authRequest.getName())
-                    .email(authRequest.getEmail())
+                    .mobileNumber(authRequest.getMobileNumber())
                     .userCredential(credential)
                     .build();
             userService.create(admin);
 
             return RegisterResponse.builder()
-                    .email(credential.getEmail())
+                    .mobileNumber(credential.getMobileNumber())
                     .build();
 
         } catch (DataIntegrityViolationException exception) {
@@ -109,7 +109,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
+                request.getMobileNumber(),
                 request.getPassword()
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -117,9 +117,9 @@ public class AuthServiceImpl implements AuthService {
         UserDetailImpl userDetails = (UserDetailImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        String token = jwtUtils.generateToken(userDetails.getEmail());
+        String token = jwtUtils.generateToken(userDetails.getMobileNumber());
         return LoginResponse.builder()
-                .email(userDetails.getEmail())
+                .mobileNumber(userDetails.getMobileNumber())
                 .roles(roles)
                 .token(token)
                 .build();

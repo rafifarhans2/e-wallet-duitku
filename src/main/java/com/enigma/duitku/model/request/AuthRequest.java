@@ -14,6 +14,6 @@ public class AuthRequest {
     private String password;
     private String name;
     private String address;
-    private String mobilePhone;
+    private String mobileNumber;
     private String walletId;
 }

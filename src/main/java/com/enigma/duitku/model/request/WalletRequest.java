@@ -9,7 +9,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class WalletRequest {
 
-    private String mobilePhone;
+    private String mobileNumber;
     private String targetMobileNumber;
     private Double amount;
     private String description;

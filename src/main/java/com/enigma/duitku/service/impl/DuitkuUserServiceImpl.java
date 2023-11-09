@@ -20,12 +20,12 @@ public class DuitkuUserServiceImpl implements UserDetailsService {
     private final UserCredentialRepository userCredentialRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserCredential userCredential = userCredentialRepository.findByEmail(email).orElseThrow(() ->new UsernameNotFoundException("user not found"));
+    public UserDetails loadUserByUsername(String mobileNumber) throws UsernameNotFoundException {
+        UserCredential userCredential = userCredentialRepository.findByMobileNumber(mobileNumber).orElseThrow(() ->new UsernameNotFoundException("user not found"));
         List<SimpleGrantedAuthority> grantedAuthorities = userCredential.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole().name())).collect(Collectors.toList());
 
         return UserDetailImpl.builder()
-                .email(userCredential.getEmail())
+                .mobileNumber(userCredential.getMobileNumber())
                 .password(userCredential.getPassword())
                 .authorities(grantedAuthorities)
                 .build();

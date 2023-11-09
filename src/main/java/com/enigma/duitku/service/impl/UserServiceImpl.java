@@ -27,12 +27,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) throws UserException {
         try {
-            Optional<User> findUser = userRepository.findById(user.getMobilePhone());
+            Optional<User> findUser = userRepository.findById(user.getMobileNumber());
 
             if(findUser.isEmpty()) {
                 Wallet wallet = new Wallet();
                 wallet.setBalance(0.0);
-                wallet.setId(user.getMobilePhone());
+                wallet.setId(user.getMobileNumber());
                 user.setWallet(wallet);
 
                 User addUser=userRepository.saveAndFlush(user);
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 }
 
             } else {
-                throw new UserException("User already Registered With The Mobile Number: " +  user.getMobilePhone());
+                throw new UserException("User already Registered With The Mobile Number: " +  user.getMobileNumber());
             }
 
         } catch (DataIntegrityViolationException exception) {
@@ -73,11 +73,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        User currentUser= getById(user.getMobilePhone());
+        User currentUser= getById(user.getMobileNumber());
         if (currentUser!= null) {
             return userRepository.save(user);
         } else {
-            throw new RuntimeException("User by Number " + user.getMobilePhone() + " No Found. Unable to update.");
+            throw new RuntimeException("User by Number " + user.getMobileNumber() + " No Found. Unable to update.");
         }
     }
 

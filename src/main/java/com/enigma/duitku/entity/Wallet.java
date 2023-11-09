@@ -26,4 +26,7 @@ public class Wallet {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Transaction> listOfTransactions = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Beneficiary> listOfBeneficiaries = new ArrayList<>();
 }

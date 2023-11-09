@@ -23,7 +23,7 @@ public class UserCredential {
     private String id;
 
     @Column(unique = true, length = 255)
-    private String email;
+    private String mobileNumber;
 
     private String password;
 

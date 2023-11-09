@@ -15,7 +15,7 @@ import java.util.Collection;
 @Builder(toBuilder = true)
 public class UserDetailImpl implements UserDetails {
 
-    private String email;
+    private String mobileNumber;
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
@@ -33,7 +33,7 @@ public class UserDetailImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return mobileNumber;
     }
 
     @Override

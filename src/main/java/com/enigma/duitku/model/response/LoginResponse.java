@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class LoginResponse {
-    private String email;
+    private String mobileNumber;
     private List<String> roles;
     private String token;
 }

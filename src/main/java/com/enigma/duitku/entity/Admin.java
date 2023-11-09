@@ -22,7 +22,7 @@ public class Admin {
     private String name;
 
     @Column(unique = true)
-    private String email;
+    private String mobileNumber;
 
     @OneToOne
     @JoinColumn(name = "user_credential_id")
