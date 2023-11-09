@@ -23,12 +23,21 @@ public class BankAccountController {
 
         BankAccountResponse bankAccountResponse = bankAccountService.addAccount(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.CREATED.value())
-                        .data(bankAccountResponse)
-                        .message("Successfully create bank account")
-                        .build());
+        if(bankAccountResponse.getErrors() == null) {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(CommonResponse.builder()
+                            .statusCode(HttpStatus.CREATED.value())
+                            .data(bankAccountResponse)
+                            .message("Successfully created bank account")
+                            .build());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(CommonResponse.builder()
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .data(bankAccountResponse)
+                            .message("Failed created bank account")
+                            .build());
+        }
     }
 
     @PostMapping("/view/balance")

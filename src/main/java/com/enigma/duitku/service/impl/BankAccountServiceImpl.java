@@ -38,16 +38,18 @@ public class BankAccountServiceImpl implements BankAccountService {
 
             bankAccountRepository.saveAndFlush(bankAccount);
 
-        } else {
-            throw new UserException("Invalid nomor mobile, Please Enter Your Registered  Mobile Number!");
-        }
+            return BankAccountResponse.builder()
+                    .mobileNumber(request.getMobileNumber())
+                    .bankName(request.getBankName())
+                    .accountNo(request.getAccountNo())
+                    .balance(request.getBalance())
+                    .build();
 
-        return BankAccountResponse.builder()
-                .mobileNumber(request.getMobileNumber())
-                .bankName(request.getBankName())
-                .accountNo(request.getAccountNo())
-                .balance(request.getBalance())
-                .build();
+        } else {
+            return BankAccountResponse.builder()
+                    .errors("Invalid nomor mobile, Please Enter Your Registered  Mobile Number!")
+                    .build();
+        }
     }
 
     @Override
