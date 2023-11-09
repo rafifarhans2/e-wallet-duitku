@@ -11,6 +11,7 @@ import com.enigma.duitku.service.BankAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountRepository bankAccountRepository;
 
     @Override
-    public BankAccountResponse addAccount(BankAccountRequest request) throws UserException {
+    public BankAccountResponse addAccount(BankAccountRequest request) {
 
         Optional<User> optionalUser = userRepository.findById(request.getMobileNumber());
 
@@ -38,14 +39,72 @@ public class BankAccountServiceImpl implements BankAccountService {
 
             bankAccountRepository.saveAndFlush(bankAccount);
 
+            return BankAccountResponse.builder()
+                    .mobileNumber(request.getMobileNumber())
+                    .bankName(request.getBankName())
+                    .accountNo(request.getAccountNo())
+                    .balance(request.getBalance())
+                    .build();
+
         } else {
-            throw new UserException("Invalid nomor mobile, Please Enter Your Registered  Mobile Number!");
+            return BankAccountResponse.builder()
+                    .errors("Invalid nomor mobile, Please Enter Your Registered  Mobile Number!")
+                    .build();
+        }
+    }
+
+    @Override
+    public BankAccountResponse viewProfile(BankAccountRequest request) {
+
+        Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(request.getMobileNumber());
+
+        if(optionalBankAccount.isPresent()) {
+            BankAccount bankAccount = optionalBankAccount.get();
+
+            return BankAccountResponse.builder()
+                    .mobileNumber(bankAccount.getId())
+                    .bankName(bankAccount.getBankName())
+                    .accountNo(bankAccount.getAccountNo())
+                    .build();
         }
 
         return BankAccountResponse.builder()
-                .bankName(request.getBankName())
-                .accountNo(request.getAccountNo())
-                .balance(request.getBalance())
+                .errors("Mobile number not found")
                 .build();
+    }
+
+    @Override
+    public BankAccountResponse viewBankBalance(BankAccountRequest request) {
+        Optional<BankAccount> optionalBankAccount= bankAccountRepository.findById(request.getMobileNumber());
+
+        if(optionalBankAccount.isPresent()) {
+            BankAccount bankAccount = optionalBankAccount.get();
+            double balance = bankAccount.getBalance();
+            return BankAccountResponse.builder()
+                    .balance(bankAccount.getBalance())
+                    .build();
+        } else {
+            return BankAccountResponse.builder()
+                    .errors("Mobile number not found")
+                    .build();
+        }
+    }
+
+    @Override
+    public BankAccountResponse removeAccountBank(User user) {
+
+       BankAccount bankAccount = bankAccountRepository.getById(user.getMobilePhone());
+
+        if(bankAccount!=null) {
+            bankAccountRepository.delete(bankAccount);
+
+            return BankAccountResponse.builder()
+                    .bankName(bankAccount.getBankName())
+                    .build();
+        } else {
+            return BankAccountResponse.builder()
+                    .errors("Failed to delete account bank")
+                    .build();
+        }
     }
 }
