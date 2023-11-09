@@ -30,16 +30,12 @@ public class BankAccountServiceImpl implements BankAccountService {
 
             User user = optionalUser.get();
 
-            BankAccount bankAccount = new BankAccount().toBuilder()
-                    .id(user.getMobilePhone())
-                    .accountNo(request.getAccountNo())
-                    .balance(request.getBalance())
-                    .bankName(request.getBankName())
-                    .build();
-//            bankAccount.setId(user.getMobilePhone());
-//            bankAccount.setAccountNo(request.getAccountNo());
-//            bankAccount.setBalance(request.getBalance());
-//            bankAccount.setBankName(request.getBankName());
+            BankAccount bankAccount = new BankAccount();
+            bankAccount.setId(user.getMobilePhone());
+            bankAccount.setAccountNo(request.getAccountNo());
+            bankAccount.setBalance(request.getBalance());
+            bankAccount.setBankName(request.getBankName());
+
             bankAccountRepository.saveAndFlush(bankAccount);
 
         } else {
