@@ -9,9 +9,13 @@ import com.enigma.duitku.repository.BankAccountRepository;
 import com.enigma.duitku.repository.UserRepository;
 import com.enigma.duitku.service.BankAccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,40 +58,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public BankAccountResponse viewProfile(BankAccountRequest request) {
-
-        Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(request.getMobileNumber());
-
-        if(optionalBankAccount.isPresent()) {
-            BankAccount bankAccount = optionalBankAccount.get();
-
-            return BankAccountResponse.builder()
-                    .mobileNumber(bankAccount.getId())
-                    .bankName(bankAccount.getBankName())
-                    .accountNo(bankAccount.getAccountNo())
-                    .build();
-        }
-
-        return BankAccountResponse.builder()
-                .errors("Mobile number not found")
-                .build();
-    }
-
-    @Override
-    public BankAccountResponse viewBankBalance(BankAccountRequest request) {
-        Optional<BankAccount> optionalBankAccount= bankAccountRepository.findById(request.getMobileNumber());
-
-        if(optionalBankAccount.isPresent()) {
-            BankAccount bankAccount = optionalBankAccount.get();
-            double balance = bankAccount.getBalance();
-            return BankAccountResponse.builder()
-                    .balance(bankAccount.getBalance())
-                    .build();
-        } else {
-            return BankAccountResponse.builder()
-                    .errors("Mobile number not found")
-                    .build();
-        }
+    public BankAccount getById(String id) {
+        return bankAccountRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Account Not found"));
     }
 
     @Override

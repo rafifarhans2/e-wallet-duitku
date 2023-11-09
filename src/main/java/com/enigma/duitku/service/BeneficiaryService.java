@@ -4,7 +4,11 @@ import com.enigma.duitku.model.request.AuthRequest;
 import com.enigma.duitku.model.request.BeneficiaryRequest;
 import com.enigma.duitku.model.response.BeneficiaryResponse;
 
+import java.util.List;
+
 public interface BeneficiaryService {
 
-    BeneficiaryResponse addBeneficiary(BeneficiaryRequest request );
+    BeneficiaryResponse addBeneficiary(BeneficiaryRequest request);
+
+    List<BeneficiaryResponse> viewAllBeneficiaries();
 }

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/bankaccount")
@@ -42,49 +44,15 @@ public class BankAccountController {
         }
     }
 
-    @PostMapping("/view")
-    public ResponseEntity<?> viewProfile(@RequestBody BankAccountRequest request) {
-
-        BankAccountResponse profileWallet = bankAccountService.viewProfile(request);
-
-        if(profileWallet.getErrors() != null || request.getMobileNumber().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CommonResponse.builder()
-                            .statusCode(HttpStatus.NOT_FOUND.value())
-                            .data(profileWallet)
-                            .message("Failed view profile because mobile number bank not registered")
-                            .build());
-        } else {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(CommonResponse.builder()
-                            .statusCode(HttpStatus.OK.value())
-                            .data(profileWallet)
-                            .message("Successfully view profile")
-                            .build());
-        }
-    }
-
-    @PostMapping("/view/balance")
-    public ResponseEntity<?> viewBankBalance(@RequestBody BankAccountRequest request) {
-
-        BankAccountResponse balance = bankAccountService.viewBankBalance(request);
-
-        if(balance.getErrors() != null || request.getMobileNumber().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CommonResponse.builder()
-                            .statusCode(HttpStatus.NOT_FOUND.value())
-                            .message("Failed get balance because mobile number bank not registered")
-                            .data(balance)
-                            .build());
-        } else {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(CommonResponse.builder()
-                            .statusCode(HttpStatus.OK.value())
-                            .data(balance)
-                            .message("Succcessfully get balance")
-                            .build());
-        }
-    }
+    @GetMapping("/profile/{id}")
+   public ResponseEntity<?> getViewProfileBankAccount(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully get bank account by id")
+                        .data(bankAccountService.getById(id))
+                        .build());
+   }
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteBankAccount(@RequestBody User user) {

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -75,8 +76,22 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
                     .errors("A beneficiary already exists with this Mobile Number " + request.getMobileNumber())
                     .build();
         }
+    }
 
 
+    @Override
+    public List<BeneficiaryResponse> viewAllBeneficiaries() {
 
+        List<Beneficiary> beneficiaries = beneficiaryRepository.findAll();
+        List<BeneficiaryResponse> responses = new ArrayList<>();
+        for(Beneficiary beneficiary : beneficiaries) {
+            BeneficiaryResponse response = BeneficiaryResponse.builder()
+                    .mobileNumber(beneficiary.getMobileNumber())
+                    .accountNo(beneficiary.getAccountNo())
+                    .bankName(beneficiary.getBankName())
+                    .build();
+            responses.add(response);
+        }
+        return responses;
     }
 }

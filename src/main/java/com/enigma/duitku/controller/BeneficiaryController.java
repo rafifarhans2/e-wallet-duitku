@@ -7,10 +7,9 @@ import com.enigma.duitku.service.BeneficiaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class BeneficiaryController {
     private final BeneficiaryService beneficiaryService;
 
     @PostMapping("/add")
-    private ResponseEntity<?> addBeneficiary(@RequestBody BeneficiaryRequest request) {
+    public ResponseEntity<?> addBeneficiary(@RequestBody BeneficiaryRequest request) {
 
         BeneficiaryResponse beneficiaryResponse = beneficiaryService.addBeneficiary(request);
 
@@ -30,6 +29,12 @@ public class BeneficiaryController {
                         .data(beneficiaryResponse)
                         .message("Successfully create benefiary")
                         .build());
+    }
+
+    @GetMapping("/viewall")
+    public ResponseEntity<List<BeneficiaryResponse>> getAllBeneficiaryResponse() {
+        List<BeneficiaryResponse> allBeneficiaryResponse = beneficiaryService.viewAllBeneficiaries();
+        return new ResponseEntity<>(allBeneficiaryResponse, HttpStatus.OK);
     }
 
 }
