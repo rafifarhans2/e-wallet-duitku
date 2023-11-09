@@ -24,19 +24,20 @@ public class BankAccountController {
 
         BankAccountResponse bankAccountResponse = bankAccountService.addAccount(request);
 
-        if(bankAccountResponse.getErrors() == null) {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(CommonResponse.builder()
-                            .statusCode(HttpStatus.CREATED.value())
-                            .data(bankAccountResponse)
-                            .message("Successfully created bank account")
-                            .build());
-        } else {
+        if(bankAccountResponse.getErrors() != null || request.getMobileNumber().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(CommonResponse.builder()
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .data(bankAccountResponse)
                             .message("Failed created bank account")
+                            .build());
+
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(CommonResponse.builder()
+                            .statusCode(HttpStatus.CREATED.value())
+                            .data(bankAccountResponse)
+                            .message("Successfully created bank account")
                             .build());
         }
     }
@@ -46,12 +47,21 @@ public class BankAccountController {
 
         BankAccountResponse profileWallet = bankAccountService.viewProfile(request);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .data(profileWallet)
-                        .message("Successfully view profile")
-                        .build());
+        if(profileWallet.getErrors() != null || request.getMobileNumber().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CommonResponse.builder()
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .data(profileWallet)
+                            .message("Failed view profile because mobile number bank not registered")
+                            .build());
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(CommonResponse.builder()
+                            .statusCode(HttpStatus.OK.value())
+                            .data(profileWallet)
+                            .message("Successfully view profile")
+                            .build());
+        }
     }
 
     @PostMapping("/view/balance")
@@ -59,19 +69,19 @@ public class BankAccountController {
 
         BankAccountResponse balance = bankAccountService.viewBankBalance(request);
 
-        if(balance.getErrors() == null) {
+        if(balance.getErrors() != null || request.getMobileNumber().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CommonResponse.builder()
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("Failed get balance because mobile number bank not registered")
+                            .data(balance)
+                            .build());
+        } else {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(CommonResponse.builder()
                             .statusCode(HttpStatus.OK.value())
                             .data(balance)
                             .message("Succcessfully get balance")
-                            .build());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(CommonResponse.builder()
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Failed get balance")
-                            .data(balance)
                             .build());
         }
     }
@@ -85,7 +95,7 @@ public class BankAccountController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message(String.valueOf(bankAccount))
+                        .message(String.valueOf("Sucessfully delete account bank"))
                         .build());
     }
 }

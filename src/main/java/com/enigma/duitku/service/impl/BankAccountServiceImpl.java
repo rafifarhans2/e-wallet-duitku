@@ -81,7 +81,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             BankAccount bankAccount = optionalBankAccount.get();
             double balance = bankAccount.getBalance();
             return BankAccountResponse.builder()
-                    .balance(request.getBalance())
+                    .balance(bankAccount.getBalance())
                     .build();
         } else {
             return BankAccountResponse.builder()
@@ -99,7 +99,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             bankAccountRepository.delete(bankAccount);
 
             return BankAccountResponse.builder()
-                    .message("Successfully delete account bank")
+                    .bankName(bankAccount.getBankName())
                     .build();
         } else {
             return BankAccountResponse.builder()
