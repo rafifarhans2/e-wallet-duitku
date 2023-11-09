@@ -63,10 +63,13 @@ public class AuthServiceImpl implements AuthService {
                     .build();
             userService.create(user);
 
+            Wallet wallet = new Wallet();
+            wallet.setBalance(wallet.getBalance());
+
             return RegisterResponse.builder()
                     .email(credential.getEmail())
                     .mobilePhone(user.getMobilePhone())
-                    .balance(user.getWallet().getBalance())
+                    .balance(wallet.getBalance())
                     .build();
 
         } catch (DataIntegrityViolationException exception) {
