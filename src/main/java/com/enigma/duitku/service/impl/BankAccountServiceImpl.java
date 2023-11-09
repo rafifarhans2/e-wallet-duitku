@@ -11,6 +11,7 @@ import com.enigma.duitku.service.BankAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -85,6 +86,24 @@ public class BankAccountServiceImpl implements BankAccountService {
         } else {
             return BankAccountResponse.builder()
                     .errors("Mobile number not found")
+                    .build();
+        }
+    }
+
+    @Override
+    public BankAccountResponse removeAccountBank(User user) {
+
+       BankAccount bankAccount = bankAccountRepository.getById(user.getMobilePhone());
+
+        if(bankAccount!=null) {
+            bankAccountRepository.delete(bankAccount);
+
+            return BankAccountResponse.builder()
+                    .message("Successfully delete account bank")
+                    .build();
+        } else {
+            return BankAccountResponse.builder()
+                    .errors("Failed to delete account bank")
                     .build();
         }
     }

@@ -1,6 +1,7 @@
 package com.enigma.duitku.controller;
 
 import com.enigma.duitku.entity.BankAccount;
+import com.enigma.duitku.entity.User;
 import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.model.request.BankAccountRequest;
 import com.enigma.duitku.model.response.BankAccountResponse;
@@ -73,5 +74,18 @@ public class BankAccountController {
                             .data(balance)
                             .build());
         }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteBankAccount(@RequestBody User user) {
+
+        bankAccountService.removeAccountBank(user);
+
+        BankAccount bankAccount = new BankAccount();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(String.valueOf(bankAccount))
+                        .build());
     }
 }
