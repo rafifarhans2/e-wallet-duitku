@@ -43,9 +43,28 @@ public class BankAccountServiceImpl implements BankAccountService {
         }
 
         return BankAccountResponse.builder()
+                .mobileNumber(request.getMobileNumber())
                 .bankName(request.getBankName())
                 .accountNo(request.getAccountNo())
                 .balance(request.getBalance())
                 .build();
+    }
+
+    @Override
+    public BankAccountResponse viewBankBalance(BankAccountRequest request) {
+        Optional<BankAccount> optionalBankAccount= bankAccountRepository.findById(request.getMobileNumber());
+
+        if(optionalBankAccount.isPresent()) {
+            BankAccount bankAccount = optionalBankAccount.get();
+            double balance = bankAccount.getBalance();
+            return BankAccountResponse.builder()
+                    .balance(request.getBalance())
+                    .build();
+        } else {
+            return BankAccountResponse.builder()
+                    .errors("Mobile number not found")
+                    .build();
+        }
+
     }
 }
