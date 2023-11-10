@@ -5,7 +5,13 @@ import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.model.request.TransactionRequest;
 import com.enigma.duitku.model.response.TransactionResponse;
 
+import java.util.List;
+
 public interface TransactionService {
 
     TransactionResponse addTransaction(TransactionRequest transactionRequest);
+
+    Transaction viewTransactionId(String transationId);
+
+    List<TransactionResponse> viewAllTransaction();
 }

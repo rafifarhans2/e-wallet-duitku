@@ -71,4 +71,14 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return user;
     }
+
+    @Override
+    public Transaction viewTransactionId(String transationId) {
+        return null;
+    }
+
+    @Override
+    public List<TransactionResponse> viewAllTransaction() {
+        return null;
+    }
 }

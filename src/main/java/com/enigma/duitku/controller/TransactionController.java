@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,4 +33,24 @@ public class TransactionController {
                         .build());
     }
 
+    @GetMapping("/view")
+    public ResponseEntity<?> viewTransaction(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .data(transactionService.viewTransactionId(id))
+                        .build());
+    }
+
+    @GetMapping("/viewall")
+    public ResponseEntity<?> viewAllTransaction() {
+
+        List<TransactionResponse> transactions = transactionService.viewAllTransaction();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully get all transaction")
+                        .data(transactions)
+                        .build());
+    }
 }
