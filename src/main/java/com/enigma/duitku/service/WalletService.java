@@ -10,6 +10,8 @@ import com.enigma.duitku.model.request.WalletRequest;
 import com.enigma.duitku.model.response.TransactionResponse;
 import com.enigma.duitku.model.response.WalletResponse;
 
+import java.util.List;
+
 public interface WalletService {
 
         TransactionResponse transferMoney(TransactionRequest transaction);
