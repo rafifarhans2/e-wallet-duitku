@@ -8,10 +8,7 @@ import com.enigma.duitku.service.BillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +33,7 @@ public class BillPaymentController {
                         .build());
     }
 
+    @GetMapping("/view/allpayments")
     public ResponseEntity<?> viewAllBillPayment() {
         List<Bill> bills = billService.viewBillPayments();
         return ResponseEntity.status(HttpStatus.OK)
