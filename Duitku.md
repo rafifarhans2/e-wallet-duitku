@@ -48,4 +48,4 @@ The Digital Wallet Application's REST API, developed by Duitku, offers users the
     - Endpoint for Sign Up
     - Endpoint for Sign In
 
-<a href="https://ibb.co/QPCnXmd"><img src="https://i.ibb.co/ZBYKNTm/Duitku-drawio-1.png" alt="Duitku-drawio-1" border="0"></a>
+<a href="https://ibb.co/dbXMcRS"><img src="https://i.ibb.co/8zGsBHJ/Duitku-drawio.png" alt="Duitku-drawio" border="0"></a>
