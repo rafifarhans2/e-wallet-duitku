@@ -14,4 +14,5 @@ public class BankAccountRequest {
     private String bankName;
     private Double balance;
     private String accountNo;
+    private Double amount;
 }

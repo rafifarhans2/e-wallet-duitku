@@ -70,17 +70,17 @@ class AuthServiceImplTest {
         authRequest.setPassword("apakahkamutau");
         authRequest.setName("dimdoang");
         authRequest.setAddress("jalan-jalan teros");
-        authRequest.setMobilePhone("08954353434");
+        authRequest.setMobileNumber("08954353434");
 
 
         Role role = new Role();
         role.setRole(ERole.ROLE_USER);
 
         UserCredential userCredential = new UserCredential();
-        userCredential.setEmail("dim4211@gmail.com");
+        userCredential.setMobileNumber("089543534534");
 
         User user = new User();
-        user.setMobilePhone("089543534534");
+        user.setMobileNumber("089543534534");
 
 
 
@@ -99,7 +99,7 @@ class AuthServiceImplTest {
 
 
         assertEquals("dim4211@gmail.com", response.getEmail());
-        assertEquals("08954353434", response.getMobilePhone());
+        assertEquals("08954353434", response.getMobileNumber());
         assertEquals(null, response.getBalance());
     }
 
@@ -114,7 +114,7 @@ class AuthServiceImplTest {
         role.setRole(ERole.ROLE_ADMIN);
 
         UserCredential userCredential = new UserCredential();
-        userCredential.setEmail(authRequest.getEmail());
+        userCredential.setMobileNumber(authRequest.getEmail());
         userCredential.setPassword(authRequest.getPassword());
         userCredential.setRoles(Collections.singletonList(role));
 
@@ -139,7 +139,7 @@ class AuthServiceImplTest {
         authRequest.setPassword("apakahkamutau");
         authRequest.setName("dimdoang");
         authRequest.setAddress("jalan-jalan teros");
-        authRequest.setMobilePhone("08954353434");
+        authRequest.setMobileNumber("08954353434");
 
         Role role = new Role();
         role.setRole(ERole.ROLE_USER);

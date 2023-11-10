@@ -15,5 +15,6 @@ public interface BankAccountService {
     BankAccount getById(String id);
 
     BankAccountResponse removeAccountBank(User user);
+    BankAccountResponse topUpWallet(BankAccountRequest request);
 
 }

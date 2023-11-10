@@ -78,5 +78,29 @@ public class BankAccountServiceImpl implements BankAccountService {
                     .errors("Failed to delete account bank")
                     .build();
         }
+
+    }
+
+    @Override
+    public BankAccountResponse topUpWallet(BankAccountRequest request) {
+        Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(request.getMobileNumber());
+
+        return optionalBankAccount.map(bankAccount -> {
+            double amount = request.getAmount();
+
+            if (bankAccount.getBalance() >= amount){
+                bankAccount.setBalance(bankAccount.getBalance() - amount);
+                bankAccountRepository.saveAndFlush(bankAccount);
+
+                return BankAccountResponse.builder()
+                        .mobileNumber(request.getMobileNumber())
+                        .bankName("Top Up Success. Balance now: " + bankAccount.getBalance())
+                        .build();
+            }else {
+                return BankAccountResponse.builder()
+                        .errors("Top Up Failed")
+                        .build();
+            }
+        }).orElseThrow(() -> new RuntimeException("User Not found"));
     }
 }

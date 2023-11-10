@@ -66,4 +66,24 @@ public class BankAccountController {
                         .message(String.valueOf("Sucessfully delete account bank"))
                         .build());
     }
+
+    @PostMapping("/topup")
+    public ResponseEntity<?> topUpWallet(@RequestBody BankAccountRequest request){
+        try {
+            BankAccountResponse topUp = bankAccountService.topUpWallet(request);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(CommonResponse.<BankAccountResponse>builder()
+                            .statusCode(HttpStatus.OK.value())
+                            .data(topUp)
+                            .message("Top Up Successful")
+                            .build());
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CommonResponse.<BankAccountResponse>builder()
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("Top Up Failed. " + e.getMessage())
+                            .build());
+        }
+    }
 }
