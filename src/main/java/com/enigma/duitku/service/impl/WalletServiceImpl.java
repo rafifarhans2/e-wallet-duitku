@@ -95,6 +95,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet getById(String id) {
-        return null;
+        return walletRepository.findById(id).get();
     }
+
 }

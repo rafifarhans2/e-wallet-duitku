@@ -12,10 +12,9 @@ import com.enigma.duitku.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +45,16 @@ public class WalletController {
                         .statusCode(HttpStatus.CREATED.value())
                         .data(transactionResponse)
                         .message("Sucessfully add money to wallet")
+                        .build());
+    }
+
+    @GetMapping(value="wallet/{id}")
+    public ResponseEntity<?> getWalletById(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully get wallet by id")
+                        .data(walletService.getById(id))
                         .build());
     }
 
