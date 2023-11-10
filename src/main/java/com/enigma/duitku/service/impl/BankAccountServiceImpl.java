@@ -2,6 +2,7 @@ package com.enigma.duitku.service.impl;
 
 import com.enigma.duitku.entity.BankAccount;
 import com.enigma.duitku.entity.User;
+import com.enigma.duitku.entity.Wallet;
 import com.enigma.duitku.exception.UserException;
 import com.enigma.duitku.model.request.BankAccountRequest;
 import com.enigma.duitku.model.response.BankAccountResponse;
@@ -85,11 +86,17 @@ public class BankAccountServiceImpl implements BankAccountService {
     public BankAccountResponse topUpWallet(BankAccountRequest request) {
         Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(request.getMobileNumber());
 
+        Optional<User> optionalUser = userRepository.findById(request.getMobileNumber());
+
         return optionalBankAccount.map(bankAccount -> {
             double amount = request.getAmount();
 
             if (bankAccount.getBalance() >= amount){
                 bankAccount.setBalance(bankAccount.getBalance() - amount);
+
+                Wallet userWallet = optionalUser.get().getWallet();
+                userWallet.setBalance(userWallet.getBalance() + amount);
+
                 bankAccountRepository.saveAndFlush(bankAccount);
 
                 return BankAccountResponse.builder()

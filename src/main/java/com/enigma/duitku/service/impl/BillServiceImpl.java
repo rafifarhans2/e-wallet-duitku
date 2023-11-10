@@ -19,10 +19,7 @@ public class BillServiceImpl implements BillService {
     @Transactional(rollbackOn = Exception.class)
     public TransactionResponse billPayment(BillRequest request) {
 
-
-
         return TransactionResponse.builder()
-
                 .build();
     }
 
