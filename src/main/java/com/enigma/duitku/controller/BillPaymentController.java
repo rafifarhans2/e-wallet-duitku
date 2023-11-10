@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/bill")
+@RequestMapping("api/bill")
 public class BillPaymentController {
 
 
