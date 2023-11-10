@@ -11,4 +11,6 @@ public interface BeneficiaryService {
     BeneficiaryResponse addBeneficiary(BeneficiaryRequest request);
 
     List<BeneficiaryResponse> viewAllBeneficiaries();
+
+    String deleteByMobileNumber(String beneficiaryMobileNumber);
 }

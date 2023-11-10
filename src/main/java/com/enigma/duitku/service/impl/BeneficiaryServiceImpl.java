@@ -9,6 +9,7 @@ import com.enigma.duitku.repository.BeneficiaryRepository;
 import com.enigma.duitku.repository.UserRepository;
 import com.enigma.duitku.repository.WalletRepository;
 import com.enigma.duitku.service.BeneficiaryService;
+import com.enigma.duitku.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BeneficiaryServiceImpl implements BeneficiaryService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     private final WalletRepository walletRepository;
 
@@ -30,54 +31,49 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
+    // still revisi
     public BeneficiaryResponse addBeneficiary(BeneficiaryRequest request) {
 
-        Optional<User> optionalUser = userRepository.findById(request.getMobileNumber());
+        // TODO 1: Validate user
+        User user = userService.getById(request.getMobileNumber());
 
-        if(optionalUser.isPresent()) {
+        // TODO 2: Retrieve wallet and beneficiaries
+        Wallet wallet = user.getWallet();
+        List<Beneficiary> beneficiaryList = wallet.getListOfBeneficiaries();
 
-            User user = optionalUser.get();
+        Beneficiary databasebeneficiary = null;
 
-            Wallet wallet = user.getWallet();
-
-            List<Beneficiary> beneficiaryList = wallet.getListOfBeneficiaries();
-
-            Beneficiary databasebeneficiary = null;
-
-            for (Beneficiary b : beneficiaryList) {
-
-                if(Objects.equals(b.getMobileNumber(), request.getMobileNumber())) {
-                    databasebeneficiary = b;
-                }
+        // TODO 3: Check for existing beneficiary
+        for (Beneficiary b : beneficiaryList) {
+            if (Objects.equals(b.getMobileNumber(), request.getMobileNumber())) {
+                databasebeneficiary = b;
+                break;
             }
-
-            if(databasebeneficiary == null) {
-                Beneficiary newBeneficiary = new Beneficiary();
-                newBeneficiary.setMobileNumber(request.getMobileNumber());
-                newBeneficiary.setName(request.getName());
-                newBeneficiary.setBankName(request.getBankName());
-                newBeneficiary.setAccountNo(request.getAccountNo());
-
-                beneficiaryList.add(newBeneficiary);
-                wallet.setListOfBeneficiaries(beneficiaryList);
-
-               walletRepository.save(wallet);
-               beneficiaryRepository.save(newBeneficiary);
-            }
-
-            return BeneficiaryResponse.builder()
-                    .mobileNumber(request.getMobileNumber())
-                    .bankName(request.getBankName())
-                    .name(request.getName())
-                    .accountNo(request.getAccountNo())
-                    .build();
-        } else {
-            return BeneficiaryResponse.builder()
-                    .errors("A beneficiary already exists with this Mobile Number " + request.getMobileNumber())
-                    .build();
         }
-    }
 
+        // TODO 4: Add beneficiary if not exist
+        if (databasebeneficiary == null) {
+            Beneficiary newBeneficiary = new Beneficiary();
+            newBeneficiary.setMobileNumber(request.getMobileNumber());
+            newBeneficiary.setName(request.getName());
+            newBeneficiary.setBankName(request.getBankName());
+            newBeneficiary.setAccountNo(request.getAccountNo());
+
+            beneficiaryList.add(newBeneficiary);
+            wallet.setListOfBeneficiaries(beneficiaryList);
+
+            walletRepository.save(wallet);
+            beneficiaryRepository.save(newBeneficiary);
+        }
+
+        // TODO 5: Return BeneficiaryResponse
+        return BeneficiaryResponse.builder()
+                .mobileNumber(request.getMobileNumber())
+                .bankName(request.getBankName())
+                .name(request.getName())
+                .accountNo(request.getAccountNo())
+                .build();
+    }
 
     @Override
     public List<BeneficiaryResponse> viewAllBeneficiaries() {
@@ -93,5 +89,11 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
             responses.add(response);
         }
         return responses;
+    }
+
+    @Override
+    public String deleteByMobileNumber(String beneficiaryMobileNumber) {
+
+        return null;
     }
 }
