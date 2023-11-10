@@ -84,6 +84,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
             BeneficiaryResponse response = BeneficiaryResponse.builder()
                     .mobileNumber(beneficiary.getMobileNumber())
                     .accountNo(beneficiary.getAccountNo())
+                    .name(beneficiary.getName())
                     .bankName(beneficiary.getBankName())
                     .build();
             responses.add(response);
