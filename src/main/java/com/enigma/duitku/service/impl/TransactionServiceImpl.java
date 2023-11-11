@@ -13,10 +13,13 @@ import com.enigma.duitku.service.UserService;
 import com.enigma.duitku.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,12 +76,25 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction viewTransactionId(String transationId) {
-        return null;
+    public Transaction viewTransactionId(String transactionId) {
+        return transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction Not Found"));
     }
 
     @Override
     public List<TransactionResponse> viewAllTransaction() {
-        return null;
+        List<Transaction> transactions = transactionRepository.findAll();
+        List<TransactionResponse> responses = new ArrayList<>();
+
+        for (Transaction transaction : transactions){
+            TransactionResponse response = TransactionResponse.builder()
+                    .receiver(transaction.getReceiver())
+                    .description(transaction.getDescription())
+                    .transactionType(transaction.getType())
+                    .amount(transaction.getAmount())
+                    .build();
+            responses.add(response);
+        }
+        return responses;
     }
 }

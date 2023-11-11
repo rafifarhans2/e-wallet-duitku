@@ -12,6 +12,7 @@ import com.enigma.duitku.model.request.WalletRequest;
 import com.enigma.duitku.model.response.TransactionResponse;
 import com.enigma.duitku.model.response.WalletResponse;
 import com.enigma.duitku.repository.BankAccountRepository;
+import com.enigma.duitku.repository.TransactionRepository;
 import com.enigma.duitku.repository.UserRepository;
 import com.enigma.duitku.repository.WalletRepository;
 import com.enigma.duitku.service.TransactionService;
@@ -33,65 +34,40 @@ public class WalletServiceImpl implements WalletService {
 
     private final BankAccountRepository bankAccountRepository;
 
-    private final TransactionService transactionService;
+    private final TransactionRepository transactionRepository;
 
     private final WalletRepository walletRepository;
 
     @Override
-    public TransactionResponse addMoneyToWallet(TransactionRequest request) {
-
-        Optional<User> optionalUser = userRepository.findById(request.getMobileNumber());
-
-            if(optionalUser.isPresent()) {
-
-                User user = optionalUser.get();
-                Wallet wallet = user.getWallet();
-                Double walletAvailableBalance = wallet.getBalance();
-                Optional<BankAccount> optionalBankAccount = bankAccountRepository.findById(user.getMobileNumber());
-
-                if(optionalBankAccount.isPresent()) {
-
-                    BankAccount bankAccount = optionalBankAccount.get();
-                    Double availableBalance = bankAccount.getBalance();
-
-                    if(availableBalance >= request.getAmount()) {
-
-                        wallet.setBalance(walletAvailableBalance + request.getAmount());
-
-                        TransactionRequest transaction = new TransactionRequest();
-                        user.getMobileNumber();
-                        transaction.setDescription("Wallet Top Up");
-                        transaction.setTransactionType("E-Wallet Transaction");
-                        transaction.setAmount(request.getAmount());
-                        transactionService.addTransaction(transaction);
-
-                        if(transaction != null) {
-                            bankAccount.setBalance(availableBalance - request.getAmount());
-                            bankAccountRepository.saveAndFlush(bankAccount);
-                            walletRepository.saveAndFlush(wallet);
-                        } else {
-                            throw new RuntimeException("Sorry Transaction Failed");
-                        }
-
-                    } else {
-                        throw new RuntimeException("Insufficient Funds!" + availableBalance);
-                    }
-
-                } else {
-                    throw new RuntimeException("No Registered Bank Account Found With This Mobile Number " + user.getMobileNumber());
-                }
-            }
-
-        return TransactionResponse.builder()
-                .amount(request.getAmount())
-                .description(request.getDescription())
-                .build();
-    }
-
-    @Override
     public TransactionResponse transferMoney(TransactionRequest request) {
-        return null;
+        if (request.getAmount() <= 0) {
+            throw new IllegalArgumentException("Jumlah transfer harus lebih dari 0");
+        }
+
+        Transaction transaction = new Transaction();
+        transaction.setReceiver(request.getReceiver());
+        transaction.setAmount(request.getAmount());
+        transaction.setDescription(request.getDescription());
+        transaction.setType(request.getTransactionType());
+        transaction.setLocalDate(request.getLocalDate());
+
+        transaction = transactionRepository.saveAndFlush(transaction);
+
+        // Continue with any additional logic or validation if needed
+
+        return mapToTransactionResponse(transaction);
     }
+
+    private TransactionResponse mapToTransactionResponse(Transaction transaction) {
+        return new TransactionResponse(
+                transaction.getId(),
+                transaction.getAmount(),
+                transaction.getDescription(),
+                transaction.getType(),
+                transaction.getLocalDate()
+        );
+    }
+
 
     @Override
     public Wallet getById(String id) {

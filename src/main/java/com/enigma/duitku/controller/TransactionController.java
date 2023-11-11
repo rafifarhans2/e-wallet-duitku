@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/transaction")
@@ -34,10 +36,10 @@ public class TransactionController {
     }
 
     @GetMapping("/view")
-    public ResponseEntity<?> viewTransaction(@PathVariable String id) {
+    public ResponseEntity<?> viewTransaction(@PathVariable String transactionId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
-                        .data(transactionService.viewTransactionId(id))
+                        .data(transactionService.viewTransactionId(transactionId))
                         .build());
     }
 

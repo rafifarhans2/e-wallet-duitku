@@ -60,7 +60,8 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public BankAccount getById(String id) {
-        return bankAccountRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Account Not found"));
+        return bankAccountRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Account Not found"));
     }
 
     @Override
