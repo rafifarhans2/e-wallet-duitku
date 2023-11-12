@@ -14,5 +14,6 @@ public class TransactionResponse {
     private  String description;
     private String transactionType;
     private Double amount;
+    private String message;
 
 }

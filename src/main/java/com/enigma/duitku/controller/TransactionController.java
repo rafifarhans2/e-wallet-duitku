@@ -23,18 +23,6 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @PostMapping("/addtransaction")
-    public ResponseEntity<?> addTransactionHandler(@RequestBody TransactionRequest request) throws UserException {
-        TransactionResponse transactionResponse = transactionService.addTransaction(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .data(transactionResponse)
-                        .message("Successfully Create Transaction")
-                        .build());
-    }
-
     @GetMapping("/view")
     public ResponseEntity<?> viewTransaction(@PathVariable String transactionId) {
         return ResponseEntity.status(HttpStatus.OK)

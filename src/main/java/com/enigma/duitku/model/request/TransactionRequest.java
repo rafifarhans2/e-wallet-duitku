@@ -20,4 +20,6 @@ public class TransactionRequest  {
     private Double amount;
     private LocalDateTime localDate;
     private String userId;
+    private String senderMobileNumber;
+    private String receiverMobileNumber;
 }

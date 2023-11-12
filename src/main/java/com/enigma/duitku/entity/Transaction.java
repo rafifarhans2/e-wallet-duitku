@@ -39,4 +39,13 @@ public class Transaction {
 
     @Column(nullable = false, length = 50)
     private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User senderMobileNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiverMobileNumber;
+
 }
